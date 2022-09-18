@@ -26,6 +26,7 @@ Pour cela voici les routes :
 | Edition      | /annonce/{id} | PUT | - titre : string(100)<br/>- contenu : string(255)                                                                                                                                                                                                                                             | route permettant l'édition d'une annonce (seul le titre et le contenu sont modifiables)|
 | Affichage    | /annonce/{id} | GET | pas de paramètres                                                                                                                                                                                                                                                                             | route permettant de récupérer une annonce|
 |  Suppression | /annonce/{id} | DELETE | pas de paramètres                                                                                                                                                                                                                                                                             | route permettant la suppression d'une annonce|
+
 *champs obligatoire
 
 Quelques exemples de requêtes curl pour tester l'API :
