@@ -100,7 +100,7 @@ class AnnonceControllerTest extends WebTestCase
     {
         /** @var Modele $modele */
         $modele = $this->modeleRepository->findOneBy(['nom' => 'Rs4']);
-        $this->client->request('POST', $this->path, ['titre' => 'rs4 avant', 'contenu' => 'test', 'categorie_id' => 3]);
+        $this->client->request('POST', $this->path, ['titre' => 'Automobile', 'contenu' => 'test', 'categorie_id' => 3, 'modele' => 'rs4 avant']);
         $response = $this->client->getResponse();
         $data = json_decode($response->getContent());
 
@@ -112,7 +112,7 @@ class AnnonceControllerTest extends WebTestCase
     {
         /** @var Modele $modele */
         $modele = $this->modeleRepository->findOneBy(['nom' => 'Serie 5']);
-        $this->client->request('POST', $this->path, ['titre' => 'Gran Turismo Série5', 'contenu' => 'test', 'categorie_id' => 3]);
+        $this->client->request('POST', $this->path, ['titre' => 'Automobile', 'contenu' => 'test', 'categorie_id' => 3, 'modele' => 'Gran Turismo Série5']);
         $response = $this->client->getResponse();
         $data = json_decode($response->getContent());
 
@@ -124,7 +124,7 @@ class AnnonceControllerTest extends WebTestCase
     {
         /** @var Modele $modele */
         $modele = $this->modeleRepository->findOneBy(['nom' => 'Ds3']);
-        $this->client->request('POST', $this->path, ['titre' => 'ds 3 crossback', 'contenu' => 'test', 'categorie_id' => 3]);
+        $this->client->request('POST', $this->path, ['titre' => 'Automobile', 'contenu' => 'test', 'categorie_id' => 3, 'modele' => 'ds 3 crossback']);
         $response = $this->client->getResponse();
         $data = json_decode($response->getContent());
 
@@ -136,7 +136,7 @@ class AnnonceControllerTest extends WebTestCase
     {
         /** @var Modele $modele */
         $modele = $this->modeleRepository->findOneBy(['nom' => 'Ds3']);
-        $this->client->request('POST', $this->path, ['titre' => 'CrossBack ds 3', 'contenu' => 'test', 'categorie_id' => 3]);
+        $this->client->request('POST', $this->path, ['titre' => 'Automobile', 'contenu' => 'test', 'categorie_id' => 3, 'modele' => 'CrossBack ds 3']);
         $response = $this->client->getResponse();
         $data = json_decode($response->getContent());
 
