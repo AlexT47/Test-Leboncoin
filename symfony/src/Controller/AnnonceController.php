@@ -28,8 +28,7 @@ class AnnonceController extends AbstractController
      */
     public function createAction(
         Request $request,
-        AnnonceRepository
-        $annonceRepository,
+        AnnonceRepository $annonceRepository,
         ModeleRepository $modeleRepository
     ): JsonResponse
     {
@@ -47,7 +46,8 @@ class AnnonceController extends AbstractController
             $annonce,
             $titre,
             $contenu,
-            $categorieId
+            $categorieId,
+            $request->request->all()
         );
 
         if (!$annonce instanceof Annonce) {
@@ -70,7 +70,6 @@ class AnnonceController extends AbstractController
         AnnonceRepository $annonceRepository
     ):JsonResponse
     {
-        //var_dump($request);
         $titre = $request->get('titre');
         $contenu = $request->get('contenu');
 
@@ -79,7 +78,9 @@ class AnnonceController extends AbstractController
             $annonce,
             $titre ?? $annonce->getTitre(),
             $contenu ?? $annonce->getContenu(),
-            $annonce->getCategorieId()
+            $annonce->getCategorieId(),
+            $request->request->all(),
+            false
         );
 
         if (!$annonce instanceof Annonce) {
@@ -114,7 +115,9 @@ class AnnonceController extends AbstractController
         Annonce $annonce,
         string $titre,
         string $contenu,
-        int $categorieId
+        int $categorieId,
+        array $otherData,
+        bool $creation = true
     )
     {
         $annonce->setTitre($titre)
@@ -122,24 +125,32 @@ class AnnonceController extends AbstractController
 
         switch ($categorieId) {
             case Annonce::EMPLOI:
-                $emploi = new Emploi();
+                $emploi = $annonce->getEmploi() ?: new Emploi();
                 $annonce->setEmploi($emploi);
                 break;
             case Annonce::IMMOBILIER:
-                $immobilier = new Immobilier();
+                $immobilier = $annonce->getImmobilier() ?:new Immobilier();
                 $annonce->setImmobilier($immobilier);
                 break;
             case Annonce::AUTOMOBILE:
-                $automobile = new Automobile();
-                $modele = $modeleRepository->searchAndAddModele(
-                    $annonce->getTitre()
-                );
+                $automobile = $annonce->getAutomobile() ?: new Automobile();
 
-                if ($modele === null) {
-                    return 'modèle non trouvé';
+                if (!isset($otherData['modele'])) {
+                    if ($creation) {
+                        return 'ko_modele_manquant';
+                    }
+                } else {
+                    $modele = $modeleRepository->searchAndAddModele(
+                        $otherData['modele']
+                    );
+
+                    if ($modele === null) {
+                        return 'modèle non trouvé';
+                    }
+
+                    $automobile->setModele($modele);
                 }
 
-                $automobile->setModele($modele);
                 $annonce->setAutomobile($automobile);
                 break;
             default:
